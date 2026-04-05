@@ -14,8 +14,8 @@ namespace ECommerceApp.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll() => _dbSet.ToList();
-
+        public IEnumerable<T> GetAll() => _dbSet.Include(_context.Model.FindEntityType(typeof(T))
+            .GetNavigations().Select(n => n.Name).FirstOrDefault() ?? "").ToList();
         public T GetById(int id) => _dbSet.Find(id);
 
         public void Add(T entity) => _dbSet.Add(entity);

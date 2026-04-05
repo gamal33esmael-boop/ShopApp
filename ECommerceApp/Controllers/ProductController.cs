@@ -1,6 +1,7 @@
 ﻿using ECommerceApp.Models;
 using ECommerceApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceApp.Controllers
 {
@@ -8,16 +9,20 @@ namespace ECommerceApp.Controllers
     {
         private readonly IRepository<Product> _productRepo;
         private readonly IRepository<Category> _categoryRepo;
+        private readonly AppDbContext _context;
 
-        public ProductController(IRepository<Product> productRepo, IRepository<Category> categoryRepo)
+        public ProductController(IRepository<Product> productRepo,
+                                 IRepository<Category> categoryRepo,
+                                 AppDbContext context)
         {
             _productRepo = productRepo;
             _categoryRepo = categoryRepo;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            var products = _productRepo.GetAll();
+            var products = _context.Products.Include(p => p.Category).ToList();
             return View(products);
         }
 
