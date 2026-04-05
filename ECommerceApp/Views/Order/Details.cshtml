@@ -1,0 +1,42 @@
+﻿@model ECommerceApp.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2>Order Details</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>Order #@Model.Id</h5>
+        <p><strong>Customer:</strong> @Model.CustomerName</p>
+        <p><strong>Date:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+        <p><strong>Total:</strong> @Model.TotalPrice EGP</p>
+    </div>
+</div>
+
+<h4>Order Items</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.Product?.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price EGP</td>
+                <td>@(item.Quantity* item.Price) EGP</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>
