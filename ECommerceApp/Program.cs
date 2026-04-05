@@ -12,6 +12,7 @@ namespace ECommerceApp
 
             builder.Services.AddDbContext<AppDbContext>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddSession();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -25,6 +26,7 @@ namespace ECommerceApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapControllerRoute(
